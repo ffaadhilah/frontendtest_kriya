@@ -16,6 +16,7 @@ class _FirstScreenState extends State<FirstScreen> {
   Client client = Client();
   List<DataItems> _dataItems;
   List totalItems;
+  int totalCount = 0;
 
   @override
   void initState() {
@@ -41,61 +42,12 @@ class _FirstScreenState extends State<FirstScreen> {
   @override
   Widget build(BuildContext context) {
     var bloc = Provider.of<Cart>(context);
-    int totalCount = 0;
     if (bloc.cart.length > 0) {
       totalCount = bloc.cart.values.reduce((a, b) => a + b);
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text('Total Itemss  : $totalCount'),
-        actions: <Widget>[
-          new Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: new Container(
-                height: 150.0,
-                width: 30.0,
-                child: new GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SecondPage(),
-                      ),
-                    );
-                  },
-                  child: new Stack(
-                    children: <Widget>[
-                      new IconButton(
-                        icon: new Icon(
-                          Icons.shopping_cart,
-                          color: Colors.white,
-                        ),
-                        onPressed: null,
-                      ),
-                      new Positioned(
-                          child: new Stack(
-                        children: <Widget>[
-                          new Icon(Icons.brightness_1,
-                              size: 20.0, color: Colors.red[700]),
-                          new Positioned(
-                              top: 3.0,
-                              right: 7,
-                              child: new Center(
-                                child: new Text(
-                                  '$totalCount',
-                                  style: new TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              )),
-                        ],
-                      )),
-                    ],
-                  ),
-                )),
-          )
-        ],
+        title: Text('Total Items  : $totalCount'),
       ),
       body: _dataItems == null
           ? Center(
@@ -141,6 +93,19 @@ class _FirstScreenState extends State<FirstScreen> {
                 },
               ),
             ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.purple,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SecondPage(),
+            ),
+          ).then((value) => setState(() => {}));
+        },
+        tooltip: 'Increment',
+        child: Icon(Icons.shopping_cart_rounded),
+      ),
     );
   }
 }
